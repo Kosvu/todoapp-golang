@@ -7,7 +7,7 @@ import (
 
 	"github.com/Kosvu/todoapp-golang/internal/core/domain"
 	core_errors "github.com/Kosvu/todoapp-golang/internal/core/errors"
-	"github.com/jackc/pgx/v5"
+	core_postgres_pool "github.com/Kosvu/todoapp-golang/internal/core/repository/postgres/pool"
 )
 
 func (r *UserRepository) PatchUser(
@@ -22,7 +22,7 @@ func (r *UserRepository) PatchUser(
 	UPDATE todoapp.users
 	SET full_name=$1, phone_number=$2, version=version+1
 	WHERE id=$3 AND version=$4
-	RETURNING id, version, full_name, phone_number
+	RETURNING id, version, full_name, phone_number;
 	`
 
 	row := r.pool.QueryRow(
@@ -43,7 +43,7 @@ func (r *UserRepository) PatchUser(
 	)
 
 	if err != nil {
-		if errors.Is(err, pgx.ErrNoRows) {
+		if errors.Is(err, core_postgres_pool.ErrNowRows) {
 			return domain.User{}, fmt.Errorf("user with id='%d' concurrently accessed: %w", id, core_errors.ErrConflict)
 		}
 

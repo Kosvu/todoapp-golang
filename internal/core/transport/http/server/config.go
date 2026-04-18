@@ -18,7 +18,7 @@ type Config struct {
 	// порт и время задаем через переменные окружения
 	// поэтому используем envconfig
 	Addr            string        `envconfig:"ADDR" required:"true"`
-	ShutdownTimeout time.Duration `envconfig:"SHUTDOWN_TIMEOUT" required:"true"`
+	ShutdownTimeout time.Duration `envconfig:"SHUTDOWN_TIMEOUT" deafult:"30s"`
 }
 
 // Конструктор конфига, а именно подгружаем переменные с тегом HTTP

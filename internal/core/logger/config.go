@@ -8,7 +8,7 @@ import (
 
 // Создаем структуру конфига для логгера
 type Config struct {
-	Level string `envconfig:"LEVEL" required:"true"`
+	Level string `envconfig:"LEVEL" default:"DEBUG"`
 	// задаем уровень который берем из переменной окружения
 	//required:"true" значит что это ]2 обязательно
 	Folder string `envconfig:"FOLDER" required:"true"`

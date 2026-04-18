@@ -1,6 +1,10 @@
 package core_http_server
 
-import "net/http"
+import (
+	"net/http"
+
+	core_http_middleware "github.com/Kosvu/todoapp-golang/internal/core/transport/http/middleware"
+)
 
 /*
 Обьявляем структуру нашего машрута, чтобы потом было
@@ -10,22 +14,32 @@ import "net/http"
 */
 
 type Route struct {
-	Method  string
-	Path    string
-	Handler http.HandlerFunc
+	Method     string
+	Path       string
+	Handler    http.HandlerFunc
+	Middleware []core_http_middleware.Middleware
+}
+
+func (r *Route) WithMiddleware() http.Handler {
+	return core_http_middleware.ChainMiddleware(
+		r.Handler,
+		r.Middleware...,
+	)
 }
 
 /*
 Конструктор маршрута
 */
-func NewRoute(
-	method string,
-	path string,
-	handler http.HandlerFunc,
-) Route {
-	return Route{
-		Method:  method,
-		Path:    path,
-		Handler: handler,
-	}
-}
+
+//Пока не нужен
+// func NewRoute(
+// 	method string,
+// 	path string,
+// 	handler http.HandlerFunc,
+// ) Route {
+// 	return Route{
+// 		Method:  method,
+// 		Path:    path,
+// 		Handler: handler,
+// 	}
+// }

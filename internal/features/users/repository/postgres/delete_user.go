@@ -12,8 +12,8 @@ func (r *UserRepository) DeleteUser(ctx context.Context, id int) error {
 	defer cancel()
 
 	query := `
-	DELETE from todoapp.users
-	WHERE id=$1
+	DELETE FROM todoapp.users
+	WHERE id=$1;
 	`
 
 	tag, err := r.pool.Exec(ctx, query, id)

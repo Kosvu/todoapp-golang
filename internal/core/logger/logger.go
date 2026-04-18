@@ -11,6 +11,12 @@ import (
 	"go.uber.org/zap/zapcore"
 )
 
+type loggerContextKey struct{}
+
+var (
+	key = loggerContextKey{}
+)
+
 // структура самого логгера
 type Logger struct {
 	*zap.Logger
@@ -20,10 +26,18 @@ type Logger struct {
 	//файл куда будут писаться файлы
 }
 
+func ToContext(ctx context.Context, log *Logger) context.Context {
+	return context.WithValue(
+		ctx,
+		key,
+		log,
+	)
+}
+
 // функция для проброса метода через контекст
 func FromContext(ctx context.Context) *Logger {
 	//получаем из контекса по ключу "log" наш логер
-	log, ok := ctx.Value("log").(*Logger)
+	log, ok := ctx.Value(key).(*Logger)
 	if !ok {
 		panic("no logger in context")
 	}
