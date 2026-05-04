@@ -69,7 +69,7 @@ func (r *TasksRepository) GetTasks(
 		return nil, fmt.Errorf("next rows: %w", err)
 	}
 
-	taskDomains := taskDomainFromModels(taskModels)
+	taskDomains := taskDomainsFromModels(taskModels)
 
 	return taskDomains, nil
 }
