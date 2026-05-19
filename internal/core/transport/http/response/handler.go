@@ -114,10 +114,10 @@ func (h *HTTPResponseHandler) errorResponse(
 	err error,
 	msg string,
 ) {
-	// красивый формат в виде мапы
-	response := map[string]string{
-		"message": msg,
-		"error":   err.Error(),
+
+	response := ErrorResponse{
+		Error:   err.Error(),
+		Message: msg,
 	}
 
 	// вызывает метод который пишет json

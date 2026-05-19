@@ -12,15 +12,26 @@ import (
 // создание структуры на запрос
 // прописаны валидации
 type CreateUserRequest struct {
-	FullName string `json:"full_name" validate:"required,min=3,max=100"`
+	FullName string `json:"full_name" validate:"required,min=3,max=100" example:"Ivan Ivanov"`
 	//omitempty значит только в случае если PhoneNumber есть
-	PhoneNumber *string `json:"phone_number" validate:"omitempty,min=10,max=15,startswith=+"`
+	PhoneNumber *string `json:"phone_number" validate:"omitempty,min=10,max=15,startswith=+" example:"+79998887766"`
 }
 
 // создание структуры на ответ
 // создаем алиас чтобы не менять название
 type CreateUserResponse UserDTOResponse
 
+// CreateUser godoc
+// @Summary Создать пользователя
+// @Description Создать нового пользователя в системе
+// @Tags users
+// @Accept json
+// @Produce json
+// @Param request body CreateUserRequest true "CreateUser тело запроса"
+// @Success 201 {object} CreateUserResponse "Успешно созданный пользователь"
+// @Failure 400 {object} core_http_response.ErrorResponse "Bad request"
+// @Failure 500 {object} core_http_response.ErrorResponse "Internal server error"
+// @Router /users [post]
 func (h *UsersHTTPHandler) CreateUser(w http.ResponseWriter, r *http.Request) {
 
 	// задаем контекст запроса
