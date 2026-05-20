@@ -106,6 +106,14 @@ func (h *HTTPResponseHandler) PanicResponse(p any, msg string) {
 	)
 }
 
+func (h *HTTPResponseHandler) HTMLResponse(html []byte) {
+	h.rw.WriteHeader(http.StatusOK)
+	h.rw.Header().Set("Content-Type", "text/html; charset=utf-8")
+	if _, err := h.rw.Write(html); err != nil {
+		h.log.Error("Write HTML http response", zap.Error(err))
+	}
+}
+
 /*
 Метод которвый выписывает ошибку в красивом формате
 */
